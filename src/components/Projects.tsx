@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "react";
+'use client';
+
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 
@@ -41,10 +43,16 @@ const SectionUnderline = () => (
 );
 
 const Projects = () => {
+  const [mounted, setMounted] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     let scrollTriggerInstance: any = null;
 
     const initGSAP = async () => {
@@ -79,7 +87,9 @@ const Projects = () => {
         if (st) st.kill();
       }
     };
-  }, []);
+  }, [mounted]);
+
+  if (!mounted) return null;
 
   return (
     <section id="projects" ref={sectionRef} className="relative overflow-hidden" style={{ background: "#0a0a0a" }}>

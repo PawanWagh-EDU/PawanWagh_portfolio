@@ -1,14 +1,22 @@
+'use client';
+
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const NAV_ITEMS = ["About", "Experience", "Projects", "Services", "Contact"];
 
 const Navbar = () => {
+  const [mounted, setMounted] = useState(false);
   const [active, setActive] = useState("");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress((window.scrollY / totalHeight) * 100);
@@ -25,11 +33,13 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [mounted]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
   };
+
+  if (!mounted) return null;
 
   return (
     <>

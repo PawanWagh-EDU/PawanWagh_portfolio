@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from "framer-motion";
 import { Briefcase, MapPin, Calendar } from "lucide-react";
 

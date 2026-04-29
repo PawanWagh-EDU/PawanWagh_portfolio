@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from "framer-motion";
 import HeroBackground from "./HeroBackground";
 import { MapPin } from "lucide-react";
@@ -68,8 +70,13 @@ const Hero = () => {
           >
             Let's Connect
           </button>
-          <a href="#" className="btn-neon-outline">
-            Download CV
+          <a
+            href="https://drive.google.com/file/d/1qJOntW7swk0Kpmz4zRRE-x_Ikp2QNlsp/view?usp=drivesdk"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-neon-outline"
+          >
+            View CV
           </a>
         </motion.div>
       </motion.div>

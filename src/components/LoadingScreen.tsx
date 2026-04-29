@@ -1,13 +1,19 @@
+'use client';
+
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const LoadingScreen = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const timer = setTimeout(() => setIsVisible(false), 2800);
     return () => clearTimeout(timer);
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>

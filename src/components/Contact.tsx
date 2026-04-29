@@ -1,6 +1,8 @@
+'use client';
+
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Mail, Linkedin, Github, Instagram, Phone, Send } from "lucide-react";
+import { Linkedin, Github, Instagram, Send } from "lucide-react";
 
 const SectionUnderline = () => (
   <motion.div
@@ -15,18 +17,37 @@ const SectionUnderline = () => (
 
 const Contact = () => {
   const [form, setForm] = useState({
-    name: "", email: "", projectType: "", message: "",
+    name: "", email: "", projectType: "", mobileNumber: "", message: "",
   });
   const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    setTimeout(() => {
+    setStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        setForm({ name: "", email: "", projectType: "", mobileNumber: "", message: "" });
+        setStatus({ type: 'success', message: 'Message sent successfully!' });
+      } else {
+        const errorData = await response.json();
+        setStatus({ type: 'error', message: errorData.message || 'Failed to send message' });
+      }
+    } catch (error) {
+      setStatus({ type: 'error', message: 'Network error. Please try again.' });
+    } finally {
       setSending(false);
-      setForm({ name: "", email: "", projectType: "", message: "" });
-      alert("Message sent!");
-    }, 1000);
+    }
   };
 
   const inputClass = "w-full px-4 py-3 rounded-lg font-inter text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-neon/50 transition-all duration-300";
@@ -71,20 +92,31 @@ const Contact = () => {
               required
             />
           </div>
-          <select
-            className={inputClass}
-            style={inputStyle}
-            value={form.projectType}
-            onChange={(e) => setForm({ ...form, projectType: e.target.value })}
-            required
-          >
-            <option value="">Project Type</option>
-            <option>Web App</option>
-            <option>API Bot</option>
-            <option>Business Website</option>
-            <option>API Integration</option>
-            <option>Other</option>
-          </select>
+          <div className="grid md:grid-cols-2 gap-6">
+            <select
+              className={inputClass}
+              style={inputStyle}
+              value={form.projectType}
+              onChange={(e) => setForm({ ...form, projectType: e.target.value })}
+              required
+            >
+              <option value="">Project Type</option>
+              <option>Web App</option>
+              <option>API Bot</option>
+              <option>Business Website</option>
+              <option>API Integration</option>
+              <option>Other</option>
+            </select>
+            <input
+              className={inputClass}
+              style={inputStyle}
+              type="tel"
+              placeholder="Mobile Number"
+              value={form.mobileNumber}
+              onChange={(e) => setForm({ ...form, mobileNumber: e.target.value })}
+              required
+            />
+          </div>
           <textarea
             className={inputClass}
             style={{ ...inputStyle, minHeight: "140px", resize: "vertical" }}
@@ -100,6 +132,11 @@ const Contact = () => {
           >
             <Send size={18} /> {sending ? "Sending..." : "Send Message"}
           </button>
+          {status.type && (
+            <div className={`text-center py-2 ${status.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+              {status.message}
+            </div>
+          )}
         </motion.form>
 
         <motion.div
@@ -110,11 +147,9 @@ const Contact = () => {
           transition={{ delay: 0.2 }}
         >
           {[
-            { icon: Mail, label: "Email", href: "mailto:pawanwagh@example.com" },
-            { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
-            { icon: Github, label: "GitHub", href: "https://github.com" },
-            { icon: Instagram, label: "Instagram", href: "https://instagram.com" },
-            { icon: Phone, label: "Phone", href: "tel:+917796527595" },
+            { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/pawan-wagh" },
+            { icon: Github, label: "GitHub", href: "https://github.com/PawanWagh-EDU" },
+            { icon: Instagram, label: "Instagram", href: "https://instagram.com/_pawanwagh" },
           ].map((link) => (
             <a
               key={link.label}
