@@ -13,6 +13,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.error('Missing email environment variables');
+      return res.status(500).json({ message: 'Server configuration error: Missing email credentials' });
+    }
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -20,6 +25,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         pass: process.env.EMAIL_PASS, // App password
       },
     });
+
+    await transporter.verify();
+    console.log('Transporter verified successfully');
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -36,11 +44,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.messageId);
 
     res.status(200).json({ message: 'Email sent successfully' });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error sending email:', error);
-    res.status(500).json({ message: 'Failed to send email' });
+    console.error('Error code:', error.code);
+    console.error('Error response:', error.response);
+    res.status(500).json({ message: 'Failed to send email', error: error.message });
   }
 }
