@@ -1,14 +1,15 @@
 {
   "src\\components\\Projects.tsx -> gsap": {
-    "id": "src\\components\\Projects.tsx -> gsap",
+    "id": 990,
     "files": [
-      "static/chunks/node_modules_gsap_index_js.js"
+      "static/chunks/94726e6d.ba40bb18b7324b1d.js",
+      "static/chunks/990.9c3723d0d4d66bfe.js"
     ]
   },
   "src\\components\\Projects.tsx -> gsap/ScrollTrigger": {
-    "id": "src\\components\\Projects.tsx -> gsap/ScrollTrigger",
+    "id": 9805,
     "files": [
-      "static/chunks/node_modules_gsap_ScrollTrigger_js.js"
+      "static/chunks/805.933825b718491082.js"
     ]
   }
 }

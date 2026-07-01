@@ -7,27 +7,31 @@ import { ExternalLink } from "lucide-react";
 const projects = [
   {
     num: "01",
-    name: "Ramberio Ecommerce",
-    desc: "A full-featured ecommerce platform with product catalog, cart, and checkout functionality.",
-    tech: ["React.js", "Spring Boot"],
+    name: "Erudition Elite",
+    desc: "Developed a modern, fully responsive corporate website for Erudition Infinite, showcasing its educational programs, professional training services, and company profile with an intuitive user experience.",
+    tech: ["MongoDB", "Express", "React", "Node.js"],
+    url: "https://www.eruditioninfinite.com/",
   },
   {
     num: "02",
     name: "Ticket Management System",
     desc: "End-to-end ticket management application for tracking and resolving support requests.",
     tech: ["MongoDB", "Express", "React", "Node.js"],
+    url: "https://www.kontechindustriesticketcrm.live/login",
   },
   {
     num: "03",
-    name: "Erudition Elite Learning",
-    desc: "An online learning platform with courses, quizzes, and progress tracking.",
+    name: "Sp-Arts ERP",
+    desc: "Developed a comprehensive ERP system for SP Art Hub to streamline student admissions, batch management, attendance, fee tracking, staff administration, and overall institute operations through a responsive and user-friendly dashboard.",
     tech: ["MongoDB", "Express", "React", "Node.js"],
+    url: "https://sp-art-erp.vercel.app/",
   },
   {
     num: "04",
-    name: "Pearl Crew Showcase",
-    desc: "A team portfolio and showcase platform with dynamic profiles and project displays.",
+    name: "KHM Infra",
+    desc: "Developed a modern, responsive corporate website for KHM Infra, showcasing the company's engineering services, projects, expertise, and commitment to sustainable infrastructure solutions.",
     tech: ["MongoDB", "Express", "React", "Node.js"],
+    url: "https://khm-five.vercel.app/",
   },
 ];
 
@@ -110,8 +114,8 @@ const Projects = () => {
           {projects.map((project) => (
             <motion.div
               key={project.num}
-              className="project-card glass-card p-8 flex-shrink-0 relative overflow-hidden group"
-              style={{ width: "400px", minHeight: "350px" }}
+              className="project-card glass-card p-6 md:p-8 flex-shrink-0 relative overflow-hidden group flex flex-col"
+              style={{ width: "100%", maxWidth: "400px", height: "450px" }}
               whileHover={{ scale: 1.03, rotateY: 2 }}
               transition={{ duration: 0.3 }}
             >
@@ -121,11 +125,11 @@ const Projects = () => {
               >
                 {project.num}
               </span>
-              <div className="relative z-10">
+              <div className="relative z-10 flex flex-col flex-1">
                 <h3 className="font-sora font-semibold text-[22px] text-foreground mb-3">
                   {project.name}
                 </h3>
-                <p className="text-muted-foreground text-base font-inter mb-6 leading-relaxed">
+                <p className="text-muted-foreground text-base font-inter mb-6 leading-relaxed flex-1">
                   {project.desc}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
@@ -135,8 +139,13 @@ const Projects = () => {
                     </span>
                   ))}
                 </div>
-                <a href="#" className="btn-neon-outline text-xs py-2 px-4 inline-flex items-center gap-2">
-                  <ExternalLink size={14} /> GitHub
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-neon-outline text-xs py-2 px-4 inline-flex items-center gap-2"
+                >
+                  <ExternalLink size={14} /> View Project
                 </a>
               </div>
             </motion.div>
